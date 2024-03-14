@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.restaurant.dot.RestaurantDTO;
 import com.restaurant.enums.UserRole;
 
@@ -34,6 +36,9 @@ public class User
 	
 	private String email;
 	
+//	@JsonIgnore		//not exposing password.....used to write response dto instead here only deciding what to display
+//	creates a problem while accepting a new user password part will be null..cant be null in authorization
+	@JsonProperty(access = Access.WRITE_ONLY)
 	private String password;
 	
 	@Builder.Default
@@ -41,7 +46,7 @@ public class User
 	
 	@Builder.Default
 	@OneToMany(cascade = CascadeType.ALL,mappedBy = "customer")
-	@JsonIgnore							//whenever we fetch user we do not need list of order....here written separate API
+	@JsonIgnore							//whenever we fetch and post user we do not need list of order....here written separate API
 										//saying not to do serialization and deserialization
 	private List<Order> orderList= new ArrayList<>(); 
 	
