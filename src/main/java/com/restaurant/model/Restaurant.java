@@ -3,10 +3,6 @@ package com.restaurant.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.restaurant.dot.RestaurantDTO;
-import com.restaurant.enums.UserRole;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
