@@ -36,7 +36,8 @@ public class User
 	
 	private String password;
 	
-	private UserRole role;
+	@Builder.Default
+	private UserRole role=UserRole.ROLE_CUSTOMER;
 	
 	@Builder.Default
 	@OneToMany(cascade = CascadeType.ALL,mappedBy = "customer")
