@@ -1,5 +1,6 @@
 package com.restaurant.model;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,9 +35,11 @@ public class Restaurant
 	@OneToOne
 	private User owner;
 	
-	private String restaurant;
+	private String description;
 	
-	private String cusineType;
+	private String cuisineType;
+	
+	private LocalDateTime registrationDate;
 	
 	@OneToOne
 	private Adress address;

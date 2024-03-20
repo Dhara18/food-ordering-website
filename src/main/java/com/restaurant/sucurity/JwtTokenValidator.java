@@ -45,20 +45,30 @@ public class JwtTokenValidator extends OncePerRequestFilter
 				SecretKey key=Keys.hmacShaKeyFor(JwtConstant.SECRET_KEY.getBytes());
 				
 				//building claims
+				//Jwts is factory class for Jwt Interface
+				//this step we are setting validation for create Jwt in JwtProvider
 				Claims claims=Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwt).getBody();
+				//up to parser builder...JwtParserBuilder...using this signIn key is set...then build changes from JwtParserBuilder to JwtParser
+				//from JwtParser 
 				
 				//from the claims extracting email and authorities			//got from User set in the CustomUserServiceDetail class
 				//claiming authorities(granted authority)..authority set to User in CustomUserDeatilService
+				//get method is giving map so...converting to string
 				String email=String.valueOf((claims.get("email")));
 				String authorities=String.valueOf((claims.get("authorities")));	//while claiming granted authority converted to String
+				
 				
 				//authorities=ROLE_CUSTOMER,ROLE_ADMIN,ROLE_OWNER....these are set in class Custom user details...using SimpleGrantedAuthority class
 				//here only one... either of the above authorities=ROLE_CUSTOMER
 				//while claiming granted authority converted to String... now converted back to list of granted authorities
 				List<GrantedAuthority>auth=AuthorityUtils.commaSeparatedStringToAuthorityList(authorities);
 				
+				
 				//UserNamePasswordAuthenticationToken
 				//token only allow string format not granted authority format...
+				
+				//this line is acting as validator...for upcoming requests....here in this line we are setting security token should be like this
+				//leaving a copy in context so that any request to be matched with this
 				Authentication authentication= new UsernamePasswordAuthenticationToken(email,null, auth);
 				//setting the token to the security context
 				SecurityContextHolder.getContext().setAuthentication(authentication);

@@ -28,6 +28,7 @@ public class SecurityConfig
 		http.sessionManagement(management->management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 		.authorizeHttpRequests(Auth->Auth
 				.requestMatchers("/api/admin/**").hasAnyRole("ADMIN","OWNER")		//end points can be accessed if user has any role of ADMIN,OWNER
+				//authenticated using token so...jwt token required to access
 				.requestMatchers("/api/**").authenticated()							//end point starting with "/api/**" user having any role need to provide JWT token he will be able to access...
 				.anyRequest().permitAll()											//all users without token ,having any role can able to access ex..authSignUp,authSignIn for these end points
 				)
@@ -55,12 +56,16 @@ public class SecurityConfig
 													));
 				cfg.setAllowedMethods(Collections.singletonList("*"));				//methods allowed for front end URL...* means all
 				cfg.setAllowCredentials(true);
-				cfg.setAllowedHeaders(Collections.singletonList("*"));
+				cfg.setAllowedHeaders(Collections.singletonList("*"));				//unmodifiable List containing one object....neither can add nor remove
 				cfg.setExposedHeaders(Arrays.asList("Authorization"));				//can give singleton..but we only got one header...i.e.  JwtConstant.JWT_HEADER="Authorization"
 				cfg.setMaxAge(3600L);			//time web site linked with cors
 				
 				return cfg;
 			}
+			//unmodifiable List containing one object
+			//The singletonList() method of java.util.Collections class is used to return an immutable list containing only the specified object. 
+			//The returned list is serializable. This list will always contain only one element thus the name singleton list. 
+			//When we try to add/remove an element on the returned singleton list, it would give UnsupportedOperationException.
 		};
 	}
 	

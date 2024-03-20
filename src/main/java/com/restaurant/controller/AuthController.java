@@ -92,10 +92,12 @@ public class AuthController //does not user service or any thing direct interact
 		
 	}
 	
+	// sign in using UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword())...new user so...only authenticated using direct security token...which validates by saved user...without role
+	// log in using UsernamePasswordAuthenticationToken(userDetails, null,userDetails.getAuthorities())...which goes to jwt token validation filter
+	
 	@PostMapping("/login")
 	public ResponseEntity<AuthRespponse> logIn(@RequestBody UserRequest userRequest)
-	{
-		System.out.println("");
+	{//before authenticating...just check user name and password are correct or not as this saving time..of unnecessary authentication if any one is wrong 
 		String username=userRequest.getEmail();
 		String password=userRequest.getPassword();
 		
@@ -121,21 +123,25 @@ public class AuthController //does not user service or any thing direct interact
 	}
 
 	private Authentication authenticate(String username, String password) 
-	{
-		UserDetails userDetails = customUserDetailService.loadUserByUsername(username);
+	{//before authenticating...just check user name and password are correct or not as this saving time..of unnecessary authentication if any one is wrong 
+		
+		//getting user from user service....loadUserByUsername returns user
+		//user service using repo to get the data
+		UserDetails userDetails = customUserDetailService.loadUserByUsername(username);		// loadUserByUsername in user details service 
 		
 		if(userDetails==null)
 		{
 			throw new BadCredentialsException("Invalid username...");
 		}
 		
-		if(!passwordEncoder.matches(password, userDetails.getPassword()))
+		if(!passwordEncoder.matches(password, userDetails.getPassword()))		//password encoder has matches method cause..to compare encoded and normal password 
 		{
 			throw new BadCredentialsException("Invalid password...");
 		}
 		
 		//first argument is email...it automatically takes  or can give email directly
 		//security token
+		//this line is matched with JwtTokenValidator's UsernamePasswordAuthenticationToken which is in security context....
 		return new UsernamePasswordAuthenticationToken(userDetails, null,userDetails.getAuthorities());
 	}
 }

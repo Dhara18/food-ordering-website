@@ -43,7 +43,8 @@ public class CustomUserDetailService implements UserDetailsService
 																				//(new SimpleGrantedAuthority("OWNER")or
 																				//(new SimpleGrantedAuthority("ADMIN")
 		
-		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);	//authorities=[OBJ of SGA]..ie array list of OBJs of SGA...here one obj
+		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);	//CustomUserDetail
+		//authorities=[OBJ of SGA]..ie array list of OBJs of SGA...here one obj
 		//User from security
 		//email,authorities given to user are used in JwtTokenValidator Claims which is built by using key and headers of JwtConstant
 	}

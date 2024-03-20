@@ -1,4 +1,4 @@
-package com.restaurant.dot;
+package com.restaurant.dto;
 
 import java.util.List;
 
@@ -12,6 +12,8 @@ import lombok.Data;
 // we don’t want to create a separate table for these details
 public class RestaurantDTO 
 {
+	private Long id;
+	
 	private String title;
 	
 	@Column(length = 1000)				//because default length will be 225...images require more

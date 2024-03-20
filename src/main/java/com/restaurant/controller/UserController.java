@@ -16,14 +16,15 @@ import com.restaurant.service.UserService;
 public class UserController 
 {
 	@Autowired
-	private UserService userService;
+	private UserService userService;		//get the user from token
 	
 	@GetMapping("/profile")
 	//Authorization=JWT_HEADER
 	//if checked with no token inside Auth of postman says forbidden access denied
+	//assign request headers Authorization value to jwt
 	public ResponseEntity<User> findUserByJwtToken(@RequestHeader("Authorization")String jwt) throws Exception
 	{
-		User user=userService.findByJwtToken(jwt);
+		User user=userService.findUserByJwtToken(jwt);
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 }

@@ -6,7 +6,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
-import com.restaurant.dot.RestaurantDTO;
+import com.restaurant.dto.RestaurantDTO;
 import com.restaurant.enums.UserRole;
 
 import jakarta.persistence.CascadeType;
