@@ -1,6 +1,7 @@
 package com.restaurant.serviceImpl;
 
 import java.time.LocalDateTime;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -130,17 +131,34 @@ public class RestaurantServiceImpl implements RestaurantService
 		restaurantDTO.setDiscription(restaurant.getDescription());
 		restaurantDTO.setTitle(restaurant.getName());
 		restaurantDTO.setImages(restaurant.getImges());
-		restaurantDTO.setId(restaurantId);
+		restaurantDTO.setId(restaurantId);//1
 		
-		if(user.getFavorateList().contains(restaurantDTO))
+		List<RestaurantDTO> favorateList = user.getFavorateList();
+		Iterator<RestaurantDTO> iterator = favorateList.iterator();
+		
+		boolean isRemoved=false;
+		while(iterator.hasNext())
 		{
-			user.getFavorateList().remove(restaurantDTO);			//if exist it should remove
+			RestaurantDTO next = iterator.next();
+			if(next.getId().equals(restaurantId))
+			{
+				isRemoved=favorateList.remove(next);
+				//break;									//remove break giving concurrentModificationExp
+			}
 		}
 		
-		else
-		{
-			user.getFavorateList().add(restaurantDTO);
-		}
+//		boolean isRemoved=false;
+//		for(RestaurantDTO fav:favorateList)
+//		{
+//			if(fav.getId().equals(restaurantId))
+//			{
+//				isRemoved=favorateList.remove(fav);
+//			}
+//		}
+		
+		if(isRemoved==false)
+		favorateList.add(restaurantDTO);
+
 		userRepo.save(user);
 		return restaurantDTO;
 	}

@@ -84,7 +84,7 @@ public class RestaurantAdminController 				//admin ie owner can (add,update,upda
 		return new ResponseEntity<MessageResponse>(messageResponse, HttpStatus.OK);
 	}
 	
-	@GetMapping("/user")		//imp	//no need to provide id as path variable because token has user
+	@GetMapping("/users")		//imp	//no need to provide id as path variable because token has user
 	public ResponseEntity<Restaurant>findRestaurantByUserId(@RequestHeader("Authorization")String jwt) throws Exception
 	{
 		User user = userService.findUserByJwtToken(jwt);
